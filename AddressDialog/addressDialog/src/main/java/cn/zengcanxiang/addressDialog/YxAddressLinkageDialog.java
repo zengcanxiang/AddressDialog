@@ -346,4 +346,11 @@ public class YxAddressLinkageDialog extends Dialog {
                 mCities.get(mCityAdapter.onItemOnClick),
                 mDistricts.get(mDistrictAdapter.onItemOnClick));
     }
+
+    /**
+     * 更新数据源
+     */
+    public void updateModel(YxAddressModel model) {
+        this.mDataModel = model;
+    }
 }

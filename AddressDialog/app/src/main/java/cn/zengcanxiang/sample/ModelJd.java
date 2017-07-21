@@ -3,11 +3,11 @@ package cn.zengcanxiang.sample;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.zengcanxiang.addressDialog.yx.YxAddressModel;
+import cn.zengcanxiang.addressDialog.Model.NetworkModel;
 
-public class ModelYx implements YxAddressModel<ProvinceBean, CityBean, DistrictBean> {
 
-    @Override
+public class ModelJd implements NetworkModel<ProvinceBean, CityBean, DistrictBean> {
+
     public List<ProvinceBean> getProvince() {
         List<ProvinceBean> list = new ArrayList<>();
         list.add(new ProvinceBean(1, "北京"));
@@ -16,7 +16,6 @@ public class ModelYx implements YxAddressModel<ProvinceBean, CityBean, DistrictB
         return list;
     }
 
-    @Override
     public List<CityBean> getCity(ProvinceBean province) {
         List<CityBean> list = new ArrayList<>();
         list.add(new CityBean(11, province.getProvinceName() + "城市1", province.getProvinceId()));
@@ -25,7 +24,6 @@ public class ModelYx implements YxAddressModel<ProvinceBean, CityBean, DistrictB
         return list;
     }
 
-    @Override
     public List<DistrictBean> getDistrict(CityBean city) {
         List<DistrictBean> list = new ArrayList<>();
         list.add(new DistrictBean(city.getCityId(), 111, city.getCityName() + "区县1"));
@@ -33,6 +31,7 @@ public class ModelYx implements YxAddressModel<ProvinceBean, CityBean, DistrictB
         list.add(new DistrictBean(city.getCityId(), 113, city.getCityName() + "区县3"));
         return list;
     }
+
 
     @Override
     public String showProvinceName(ProvinceBean province) {

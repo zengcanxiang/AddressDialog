@@ -27,9 +27,9 @@
                 android:id="@+id/view_address_confirm"
                 android:layout_width="55dp"
                 android:layout_height="38dp"
+                android:enabled="false"
                 android:gravity="center"
-                android:text="@string/confirm"
-                android:textColor="@color/app_gray_text" />
+                android:text="@string/confirm" />
 
         </LinearLayout>
 
@@ -38,7 +38,7 @@
             android:layout_height="0.5dp"
             android:background="@color/cut_off_rule_color_dark" />
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -48,7 +48,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="420dp" />
 
-        </LinearLayout>
+            <LinearLayout
+                android:id="@+id/view_address_mask_layer"
+                android:layout_width="match_parent"
+                android:layout_height="420dp"
+                android:clickable="true"
+                android:gravity="center">
+
+                <ProgressBar
+                    style="?android:attr/progressBarStyleSmallInverse"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </RelativeLayout>
     </LinearLayout>
 
 </LinearLayout>

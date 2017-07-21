@@ -4,8 +4,13 @@
     android:layout_height="match_parent">
 
     <Button
-        android:onClick="showDialog"
-        android:text="显示dialog"
+        android:onClick="showDialogLocal"
+        android:text="模仿显示本地数据dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <Button
+        android:onClick="showDialogNet"
+        android:text="模仿显示网络数据dialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 </LinearLayout>

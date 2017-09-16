@@ -21,7 +21,7 @@ dependencies {
   
 -  BaseAddressModel
 		<br/>不管是本地还是网络数据都需要展示给用户看的是名称，便将这部分抽离在BaseModel里面 
-		<br/>
+		
    ```java
  
     /**
@@ -43,9 +43,10 @@ dependencies {
      * 获取选择的数据
      */
     String getSelect(P province, C city, D district);
- ```
+	
+   ```
 - LocalModel
- 		<br/>根据现有的项目，抽离出的本地model 
+		<br/>根据现有的项目，抽离出的本地model 
 		<br/>
   ```java
  
@@ -63,8 +64,9 @@ dependencies {
      * 提供选择城市之后的区县数据
      */
     List<D> getDistrict(C city);
- ```
+   ```
  
+
  ## UI
  
  一开始萌生这个想法的项目的是模仿网易严选APP，自然地址选择dialog也就和网易严选的一样。后来，便想模仿其余开发商的地址选择，因为项目的缘故，只实现了两个--网易严选和京东。而且这个两个还长一样(⊙﹏⊙)b

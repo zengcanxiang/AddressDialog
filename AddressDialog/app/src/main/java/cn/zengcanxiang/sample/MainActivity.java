@@ -31,7 +31,7 @@ public class MainActivity extends Activity {
 
     public void showDialogNet(View view) {
         final ModelJd model1 = new ModelJd();
-        JdAddressLinkageDialog dialog1 = new JdAddressLinkageDialog(this, model1) {
+        final JdAddressLinkageDialog dialog1 = new JdAddressLinkageDialog<ProvinceBean, CityBean, DistrictBean>(this, model1) {
             @Override
             public void startProvince() {
                 new Thread() {
@@ -48,7 +48,7 @@ public class MainActivity extends Activity {
             }
 
             @Override
-            public void startCity(final Object province) {
+            public void startCity(final ProvinceBean province) {
                 new Thread() {
                     @Override
                     public void run() {
@@ -57,13 +57,13 @@ public class MainActivity extends Activity {
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-                        showCity(model1.getCity((ProvinceBean) province));
+                        showCity(model1.getCity(province));
                     }
                 }.start();
             }
 
             @Override
-            public void startDistrict(final Object city) {
+            public void startDistrict(final CityBean city) {
                 new Thread() {
                     @Override
                     public void run() {
@@ -72,12 +72,19 @@ public class MainActivity extends Activity {
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-                        showDistrict(model1.getDistrict((CityBean) city));
+                        showDistrict(model1.getDistrict(city));
                     }
                 }.start();
             }
         };
         dialog1.setLoadView(getLayoutInflater().inflate(R.layout.load_view, null));
+        dialog1.setTitleMaxSize(10);
+        dialog1.setConfirmClick(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, dialog1.getSelect(), Toast.LENGTH_SHORT).show();
+            }
+        });
         dialog1.show();
     }
 }

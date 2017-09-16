@@ -138,6 +138,7 @@ public class YxAddressLinkageDialog extends Dialog {
                 simplePagerTitleView.setMaxEms(titleMaxSize);
                 simplePagerTitleView.setSingleLine(true);
                 simplePagerTitleView.setMaxLines(1);
+
                 if (isCanTitleClick(index)) {
                     simplePagerTitleView.setNormalColor(ContextCompat.getColor(getContext(), titleTextColor));
                     simplePagerTitleView.setSelectedColor(ContextCompat.getColor(getContext(), titleTextColor));

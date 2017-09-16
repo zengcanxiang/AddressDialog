@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="cut_off_rule_color_dark">#DBDBDB</color>
-    <color name="app_gray_text">#777777</color>
+    <color name="app_gray_text">#999999</color>
     <color name="app_text_default_color">#333333</color>
     <color name="colorAccent">#F7B23A</color>
 </resources>

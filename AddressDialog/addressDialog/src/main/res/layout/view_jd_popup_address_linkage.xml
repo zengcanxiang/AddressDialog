@@ -28,6 +28,7 @@
                 android:layout_width="55dp"
                 android:layout_height="38dp"
                 android:enabled="false"
+                android:textColor="@color/app_gray_text"
                 android:gravity="center"
                 android:text="@string/confirm" />
 

@@ -35,9 +35,9 @@ import cn.zengcanxiang.addressDialog.R;
 /**
  * 仿JD地址选择框(地址数据是网络请求)
  */
-public abstract class JdAddressLinkageDialog extends Dialog {
+public abstract class JdAddressLinkageDialog<P, C, D> extends Dialog {
 
-    private NetworkModel mDataModel;
+    private NetworkModel<P, C, D> mDataModel;
 
     private LinearLayout mMaskLayer;
     private MagicIndicator magicIndicator;
@@ -71,7 +71,9 @@ public abstract class JdAddressLinkageDialog extends Dialog {
     /**
      * 记录显示的数据源
      */
-    private List mProvinces = new ArrayList<>(), mCities = new ArrayList<>(), mDistricts = new ArrayList<>();
+    private List<P> mProvinces = new ArrayList<>();
+    private List<C> mCities = new ArrayList<>();
+    private List<D> mDistricts = new ArrayList<>();
 
     /**
      * 记录显示的adapter
@@ -80,7 +82,7 @@ public abstract class JdAddressLinkageDialog extends Dialog {
 
     private Activity mContext;
 
-    public JdAddressLinkageDialog(Context context, NetworkModel model) {
+    public JdAddressLinkageDialog(Context context, NetworkModel<P, C, D> model) {
         super(context, R.style.LinkageDialog);
         setContentView(R.layout.view_jd_popup_address_linkage);
         mContext = (Activity) context;
@@ -201,10 +203,11 @@ public abstract class JdAddressLinkageDialog extends Dialog {
 
     private void initDistrictAdapter() {
         mDistrictAdapter = new JdAddressAdapter(mDistricts, mDataModel, 2, getContext());
-        mDistrictAdapter.setOnItemClickListener(new OnItemClickListener() {
+        mDistrictAdapter.setOnItemClickListener(new OnItemClickListener<D>() {
             @Override
-            public void onItemClick(BaseViewHolder holder, int position, Object item) {
+            public void onItemClick(BaseViewHolder holder, int position, D item) {
                 confirmBtn.setEnabled(true);
+                confirmBtn.setTextColor(ContextCompat.getColor(getContext(), titleTextColor));
                 mDistrictAdapter.notifyDataSetChanged();
                 titleValue.set(2, mDataModel.showDistrictName(item));
                 modifyTitleValue(2);
@@ -214,11 +217,12 @@ public abstract class JdAddressLinkageDialog extends Dialog {
 
     private void initCityAdapter() {
         mCityAdapter = new JdAddressAdapter(mCities, mDataModel, 1, getContext());
-        mCityAdapter.setOnItemClickListener(new OnItemClickListener() {
+        mCityAdapter.setOnItemClickListener(new OnItemClickListener<C>() {
             @Override
-            public void onItemClick(BaseViewHolder holder, int position, Object item) {
+            public void onItemClick(BaseViewHolder holder, int position, C item) {
                 mMaskLayer.setVisibility(View.VISIBLE);
                 confirmBtn.setEnabled(false);
+                confirmBtn.setTextColor(ContextCompat.getColor(getContext(), titleTextColorNo));
                 titleValue.set(1, mDataModel.showCityName(item));
                 modifyTitleValue(1);
                 startDistrict(item);
@@ -228,11 +232,12 @@ public abstract class JdAddressLinkageDialog extends Dialog {
 
     private void initProvinceAdapter() {
         mProvinceAdapter = new JdAddressAdapter(mProvinces, mDataModel, 0, getContext());
-        mProvinceAdapter.setOnItemClickListener(new OnItemClickListener() {
+        mProvinceAdapter.setOnItemClickListener(new OnItemClickListener<P>() {
             @Override
-            public void onItemClick(BaseViewHolder holder, int position, Object item) {
+            public void onItemClick(BaseViewHolder holder, int position, P item) {
                 mMaskLayer.setVisibility(View.VISIBLE);
                 confirmBtn.setEnabled(false);
+                confirmBtn.setTextColor(ContextCompat.getColor(getContext(), titleTextColorNo));
                 titleValue.set(0, mDataModel.showProvinceName(item));
                 modifyTitleValue(0);
                 startCity(item);
@@ -289,6 +294,13 @@ public abstract class JdAddressLinkageDialog extends Dialog {
     }
 
     /**
+     * 设置标题最大显示文字长度
+     */
+    public void setTitleMaxSize(int maxSize){
+        this.titleMaxSize=maxSize;
+    }
+
+    /**
      * 设置省份标题显示str
      */
     public void setProStr(String proStr) {
@@ -339,13 +351,13 @@ public abstract class JdAddressLinkageDialog extends Dialog {
     /**
      * 显示区县数据
      */
-    public void showDistrict(final List districts) {
+    public void showDistrict(final List<D> districts) {
         runUiMethod(new Runnable() {
             @Override
             public void run() {
                 mMaskLayer.setVisibility(View.GONE);
                 mDistrictAdapter.replaceAll(districts);
-
+                mDistrictAdapter.onItemOnClick=-1;
                 mFragmentContainerHelper.handlePageSelected(2);
                 addressRecyclerView.setAdapter(mDistrictAdapter);
             }
@@ -355,13 +367,13 @@ public abstract class JdAddressLinkageDialog extends Dialog {
     /**
      * 显示城市数据
      */
-    public void showCity(final List citys) {
+    public void showCity(final List<C> citys) {
         runUiMethod(new Runnable() {
             @Override
             public void run() {
                 mMaskLayer.setVisibility(View.GONE);
                 mCityAdapter.replaceAll(citys);
-
+                mCityAdapter.onItemOnClick=-1;
                 mFragmentContainerHelper.handlePageSelected(1);
                 addressRecyclerView.setAdapter(mCityAdapter);
             }
@@ -371,13 +383,13 @@ public abstract class JdAddressLinkageDialog extends Dialog {
     /**
      * 显示省数据
      */
-    public void showProvince(final List provinces) {
+    public void showProvince(final List<P> provinces) {
         runUiMethod(new Runnable() {
             @Override
             public void run() {
                 mMaskLayer.setVisibility(View.GONE);
                 mProvinceAdapter.replaceAll(provinces);
-
+                mProvinceAdapter.onItemOnClick=-1;
                 mFragmentContainerHelper.handlePageSelected(0);
                 addressRecyclerView.setAdapter(mProvinceAdapter);
             }
@@ -393,7 +405,7 @@ public abstract class JdAddressLinkageDialog extends Dialog {
 
     public abstract void startProvince();
 
-    public abstract void startCity(Object province);
+    public abstract void startCity(P province);
 
-    public abstract void startDistrict(Object city);
+    public abstract void startDistrict(C city);
 }
